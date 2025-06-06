@@ -1,0 +1,15 @@
+# このディレクトリ内の .cgi ファイルを実行可能にする
+Options +ExecCGI
+AddHandler cgi-script .cgi
+
+# URLリライトを有効にする
+RewriteEngine On
+# この .htaccess ファイルがあるディレクトリを基準にする
+RewriteBase / 
+
+# 実際に存在するファイルやディレクトリへのアクセスはそのまま
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# それ以外の全てのアクセスを index.cgi に転送する
+RewriteRule ^(.*)$ index.cgi/$1 [L,QSA]
