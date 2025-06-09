@@ -45,9 +45,9 @@ def logout_user():
     session.pop('username', None)
     return jsonify({"message": "ログアウトしました。"}), 200
 
-# @auth_bp.route('/api/check_login', methods=['GET'])
-# def check_login_status():
-#     if 'username' in session:
-#         return jsonify({"isLoggedIn": True, "username": session['username']}), 200
-#     else:
-#         return jsonify({"isLoggedIn": False}), 200
+@auth_bp.route('/api/check_login', methods=['GET'])
+def check_login_status():
+    if 'username' in session:
+        return jsonify({"isLoggedIn": True, "username": session['username']}), 200
+    else:
+        return jsonify({"isLoggedIn": False}), 200
