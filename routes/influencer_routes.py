@@ -10,6 +10,36 @@ import tempfile
 
 influencer_bp = Blueprint('influencer', __name__)
 
+@influencer_bp.route('/api/influencers/all', methods=['GET'])
+def get_all_influencers_by_region():
+    try:
+        selected_region = request.args.get('selectedRegion', '')
+
+        query = Influencer.query
+
+        if selected_region:
+            query = query.filter_by(region=selected_region)
+        
+        # Always order by followers in descending order
+        query = query.order_by(Influencer.followers.desc())
+
+        all_influencers = query.all()
+        
+        influencers_list = [influencer.to_dict() for influencer in all_influencers]
+
+        response_data = {
+            "items": influencers_list,
+            "totalItems": len(influencers_list) # Total items is simply the count of the fetched list
+        }
+        response = jsonify(response_data)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+    except Exception as e:
+        print(f"Database error: {e}")
+        return jsonify({"error": "Failed to fetch all influencers", "details": str(e)}), 500
+
 @influencer_bp.route('/api/influencers', methods=['GET'])
 @login_required
 def get_influencers():

@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # CORS設定
-CORS(app, origins="https://ranking.cspm.fun", supports_credentials=True)
+CORS(app, origins=["https://ranking.cspm.fun", "https://ranking-zeta.vercel.app"], supports_credentials=True)
 
 # データベースの初期化
 init_db(app)
