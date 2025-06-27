@@ -5,6 +5,7 @@ from config import Config
 from database import init_db
 from routes.auth import auth_bp
 from routes.influencer_routes import influencer_bp
+import os
 
 app = Flask(__name__)
 
@@ -12,7 +13,12 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # CORS設定
-CORS(app, origins=["https://ranking.cspm.fun", "https://ranking-zeta.vercel.app"], supports_credentials=True)
+cors_origins_str = os.getenv("CORS_ORIGINS")
+if cors_origins_str:
+    cors_origins = [origin.strip() for origin in cors_origins_str.split(',')]
+    CORS(app, origins=cors_origins, supports_credentials=True)
+else:
+    CORS(app, supports_credentials=True)
 
 # データベースの初期化
 init_db(app)

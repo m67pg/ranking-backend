@@ -7,8 +7,9 @@ from wsgiref.handlers import CGIHandler
 # ----------------------------------------------------------------------
 # 環境変数の設定
 # ----------------------------------------------------------------------
-sys.path.insert(0, '/home/users/0/boo.jp-ds-owaki/web/ranking-backend.python-app')
-VENV_PATH = '/home/users/0/boo.jp-ds-owaki/web/ranking-backend.python-app/venv/Lib/site-packages'
+ROOT_PATH = os.getenv('ROOT_PATH')
+sys.path.insert(0, ROOT_PATH)
+VENV_PATH = ROOT_PATH + '/venv/Lib/site-packages'
 if VENV_PATH not in sys.path:
     sys.path.insert(0, VENV_PATH)
 
